@@ -6,22 +6,22 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/PyJSG-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/PyJSG-{{ version }}.tar.gz
   sha256: 4bd6e3ff2833fa2b395bbe803a2d72a5f0bab5b7285bccd0da1a1bc0aee88bfa
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
   skip: True
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pbr
     - pip
   run:
-    - python
+    - python >={{ python_min }}
     - antlr4-python3-runtime >=4.9.3,<4.10.dev0
     - jsonasobj >=1.2.1
     - __unix  # [unix]
@@ -33,6 +33,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/hsolbrig/pyjsg
